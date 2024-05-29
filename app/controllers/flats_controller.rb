@@ -5,11 +5,15 @@ class FlatsController < ApplicationController
   def index
     @flats = Flat.all
 
+    # Geocoding
     @markers = @flats.geocoded.map do |flat|
+      # Create a hash with the following keys: lat, lng, info_window_html, marker_html
       {
         lat: flat.latitude,
         lng: flat.longitude,
+        # Call the render_to_string method to render the info_window partial
         info_window_html: render_to_string(partial: "info_window", locals: { flat: flat }),
+        # Call the render_to_string method to render the marker partial
         marker_html: render_to_string(partial: "marker", locals: { flat: flat })
       }
     end
